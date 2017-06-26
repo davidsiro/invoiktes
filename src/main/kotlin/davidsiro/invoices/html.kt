@@ -1,0 +1,192 @@
+package davidsiro.invoices
+
+import kotlinx.html.*
+import kotlinx.html.stream.appendHTML
+import java.io.File
+
+fun generateHTMLInvoice(out: Appendable, invoice: Invoice) {
+    out.appendHTML().html {
+        head {
+            header()
+        }
+        body {
+            div("container-fluid mb-4") {
+                caption(invoice)
+                hr { }
+                partiesSection(invoice)
+                hr {}
+                paymentDetails(invoice.paymentDetails)
+                hr {}
+                introText(invoice)
+                items(invoice)
+                div("row mt-4") {
+                    div("col") {}
+                    div("col-7") {
+                        div("card") {
+                            div("card-block") {
+                                div("row") {
+                                    div("col") {}
+                                    div("col") { strong { +"Základ" } }
+                                    div("col") { strong { +"Výše DPH" } }
+                                    div("col") { strong { +"Celkem" } }
+                                }
+                                div("row") {
+                                    div("col") { strong { +"Základní sazba" } }
+                                    div("col") { }
+                                    div("col") { }
+                                    div("col") { }
+                                }
+                                div("row") {
+                                    div("col") { strong { +"CELKEM" } }
+                                    div("col") { }
+                                    div("col") { }
+                                    div("col") { }
+                                }
+                                div("card-footer") {
+                                    h4("text-right") { +"Celkem ${calculateTotal(invoice)} Kč" }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun DIV.caption(invoice: Invoice) {
+    h1 {
+        +"Faktura - Daňový doklad"
+        span("badge badge-primary badge-pill") { +invoice.refNo }
+    }
+}
+
+private fun HEAD.header() {
+    meta {
+        this.charset = "UTF-8"
+    }
+    meta(name = "viewport", content = "width=device-width, initial-scale=1, shrink-to-fit=no")
+    title("Faktura 20170006")
+    link {
+        this.rel = "stylesheet"
+        this.href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    }
+}
+
+private fun DIV.partiesSection(invoice: Invoice) {
+    div("row") {
+        div("col-6") {
+            div("card") {
+                div("card-block") {
+                    h2("card-title") { +"Dodavatel" }
+                    partyBlock(invoice.seller)
+                }
+            }
+        }
+        div("col-6") {
+            div("card") {
+                div("card-block") {
+                    h2("card-title") { +"Odběratel" }
+                    partyBlock(invoice.buyer)
+                }
+            }
+        }
+    }
+}
+
+private fun DIV.paymentDetails(details: PaymentDetails) {
+    div("row") {
+        div("col") {
+            div { +"Datum vystavení: ${details.created.formatAsDay()}" }
+            div { +"Datum splatnosti: ${details.due.formatAsDay()}" }
+            div { +"DUZP: ${details.vatDate.formatAsDay()}" }
+        }
+        div("col") {
+            div { +"Platba: převodem" }
+            div { +"Číslo objednávky: ${details.orderNo}" }
+            div {
+                +"Konstantní symbol: "
+                if (details.constSymbol != null) +details.constSymbol else +"-"
+            }
+            div { +"DUZP: ${details.vatDate.formatAsDay()}" }
+        }
+        div("col") {
+            div { +"Bankovní účet: ${details.receiverAccount.accountNumber}" }
+            div { +"IBAN: ${details.receiverAccount.iban}" }
+            div { +"SWITFT: ${details.receiverAccount.swift}" }
+
+        }
+    }
+}
+
+private fun DIV.introText(invoice: Invoice) {
+    div("row mb-4") {
+        div("col") { +invoice.introText }
+    }
+}
+
+private fun DIV.items(invoice: Invoice) {
+    div("row") {
+        div("col-4") { strong { +"Označení dodávky" } }
+        div("col") { strong { +"Počet m.j." } }
+        div("col") { strong { +"Cena za m.j." } }
+        div("col") { strong { +"DPH %" } }
+        div("col") { strong { +"Bez DPH" } }
+        div("col") { strong { +"DPH" } }
+        div("col") { strong { +"Celkem" } }
+    }
+    for (item in invoice.items) {
+        div("row") {
+            div("col-4") { +item.description }
+            div("col") { +"${item.quantity} ${item.quantityUnit}" }
+            div("col") { +item.pricePerUnit.toString() }
+            div("col") { +"${item.vat.rate} %" }
+            div("col") { +calculateItemTotal(item).toString() }
+            div("col") { +calculateVAT(item).toString() }
+            div("col") { +calculateItemTotalIncVAT(item).toString() }
+        }
+    }
+}
+
+private fun DIV.partyBlock(party: Party) {
+    h3("card-subtitle mb-2 text-muted") { +party.name }
+    div("row") {
+        div("col") { +party.address.street }
+    }
+    div("row") {
+        div("col") { +"${party.address.zip} ${party.address.city}" }
+    }
+    hr {}
+    div("row") {
+        div("col") {
+            +"IČ: "
+            +party.ic
+        }
+    }
+    party.vatNo?.let {
+        div("row") {
+            div("col") {
+                +"DIČ: "
+                +party.vatNo
+            }
+        }
+    }
+    party.email?.let {
+        div("row") {
+            div("col") {
+                +"e-mail: "
+                +party.email
+            }
+        }
+    }
+    party.phone?.let {
+        div("row") {
+            div("col") {
+                +"tel.: "
+                +party.phone
+            }
+        }
+    }
+
+}
