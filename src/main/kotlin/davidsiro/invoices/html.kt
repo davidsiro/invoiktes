@@ -136,7 +136,7 @@ private fun DIV.paymentDetails(details: PaymentDetails) {
             div { +"Platba: převodem" }
             details.orderNo?.let {div { +"Číslo objednávky: ${details.orderNo}" }}
             div {
-                +"Konstantní symbol "
+                +"Variabilní symbol "
                 translation("(Variable symbol)")
                 +": "
                 if (details.variableSymbol != null) +details.variableSymbol else +"-"

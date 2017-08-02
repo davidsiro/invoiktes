@@ -33,7 +33,6 @@ data class PaymentDetails(
         val vatDate: Instant,
         val orderNo: String?,
         val variableSymbol: String?,
-        val varSymbol: String,
         val receiverAccount: BankAccount)
 
 data class BankAccount(
