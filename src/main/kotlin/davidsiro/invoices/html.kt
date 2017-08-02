@@ -160,17 +160,45 @@ private fun DIV.introText(invoice: Invoice) {
 
 private fun DIV.items(invoice: Invoice) {
     div("row") {
-        div("col-4") { strong { +"Označení dodávky" } }
-        div("col") { strong { +"Počet m.j." } }
-        div("col") { strong { +"Cena za m.j." } }
-        div("col") { strong { +"DPH %" } }
-        div("col") { strong { +"Bez DPH" } }
-        div("col") { strong { +"DPH" } }
-        div("col") { strong { +"Celkem" } }
+        div("col-6") {
+            strong { +"Označení dodávky" }
+            br {}
+            translation("(Service description)")
+        }
+        div("col") {
+            strong { +"Počet m.j." }
+            br {}
+            translation("(Quantity)")
+        }
+        div("col") {
+            strong { +"Cena za m.j. v EUR" }
+            br {}
+            translation("(Price per unit in EUR)")
+        }
+        div("col") {
+            strong { +"DPH %" }
+            br {}
+            translation("(VAT %)")
+        }
+        div("col") {
+            strong { +"Bez DPH v EUR" }
+            br {}
+            translation("(Price w/o VAT in EUR)")
+        }
+        div("col") {
+            strong { +"DPH v EUR" }
+            br {}
+            translation("(VAT in EUR)")
+        }
+        div("col") {
+            strong { +"Celkem" }
+            br {}
+            translation("(Price with VAT in EUR)")
+        }
     }
     for (item in invoice.items) {
         div("row") {
-            div("col-4") { +item.description }
+            div("col-6") { +item.description }
             div("col") { +"${item.quantity} ${item.quantityUnit}" }
             div("col") { +item.pricePerUnit.toString() }
             div("col") { +"${item.vat.rate} %" }
