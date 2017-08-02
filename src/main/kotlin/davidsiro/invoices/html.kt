@@ -136,8 +136,10 @@ private fun DIV.paymentDetails(details: PaymentDetails) {
 }
 
 private fun DIV.introText(invoice: Invoice) {
-    div("row mb-4") {
-        div("col") { +invoice.introText }
+    invoice.introText?.let {
+        div("row mb-4") {
+            div("col") { +invoice.introText }
+        }
     }
 }
 

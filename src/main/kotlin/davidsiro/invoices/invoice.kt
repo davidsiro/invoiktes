@@ -53,7 +53,7 @@ data class Invoice(
         val seller: Party,
         val buyer: Party,
         val paymentDetails: PaymentDetails,
-        val introText: String,
+        val introText: String?,
         val items: List<InvoiceItem>)
 
 
