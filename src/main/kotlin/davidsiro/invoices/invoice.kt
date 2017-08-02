@@ -54,6 +54,7 @@ data class Invoice(
         val buyer: Party,
         val paymentDetails: PaymentDetails,
         val introText: String?,
+        val exchangeRate: BigDecimal,
         val items: List<InvoiceItem>)
 
 

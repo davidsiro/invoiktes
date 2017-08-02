@@ -18,36 +18,39 @@ fun generateHTMLInvoice(out: Appendable, invoice: Invoice) {
                 hr {}
                 introText(invoice)
                 items(invoice)
-                div("row mt-4") {
-                    div("col") {}
-                    div("col-7") {
-                        div("card") {
-                            div("card-block") {
-                                div("row") {
-                                    div("col") {}
-                                    div("col") { strong { +"Základ" } }
-                                    div("col") { strong { +"Výše DPH" } }
-                                    div("col") { strong { +"Celkem" } }
-                                }
-                                div("row") {
-                                    div("col") { strong { +"Základní sazba" } }
-                                    div("col") { }
-                                    div("col") { }
-                                    div("col") { }
-                                }
-                                div("row") {
-                                    div("col") { strong { +"CELKEM" } }
-                                    div("col") { }
-                                    div("col") { }
-                                    div("col") { }
-                                }
-                                div("card-footer") {
-                                    h4("text-right") { +"Celkem ${calculateTotal(invoice)} Kč" }
-                                }
+                totals(invoice)
+            }
+        }
+    }
+}
 
-                            }
+private fun DIV.totals(invoice: Invoice) {
+    div("row mt-4") {
+        div("col") {}
+        div("col-7") {
+            div("card") {
+                div("card-block") {
+                    p("card-text text-right") {
+                        strong {
+                            +"Kurz (ČNB k ${invoice.paymentDetails.created.formatAsDay()}) "
+                        }
+                        translation("(Exchange rate EUR/CZK)")
+                        +"${invoice.exchangeRate}"
+
+                    }
+                    div("card-footer") {
+                        h4("text-right") {
+                            +"Celkem v EUR"
+                            translation("(Total due in EUR)")
+                            +": ${calculateTotal(invoice)}"
+                        }
+                        h4("text-right") {
+                            +"Celkem v CZK"
+                            translation("(Total due in CZK)")
+                            +": ${calculateTotal(invoice)}"
                         }
                     }
+
                 }
             }
         }
