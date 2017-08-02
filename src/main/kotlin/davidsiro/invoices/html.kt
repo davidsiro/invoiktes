@@ -218,7 +218,10 @@ private fun DIV.partyBlock(party: Party) {
         div("col") { +party.address.street }
     }
     div("row") {
-        div("col") { +"${party.address.zip} ${party.address.city}" }
+        div("col") { +"${party.address.city} ${party.address.zip}" }
+    }
+    div("row") {
+        div("col") { +"${party.address.country}" }
     }
     hr {}
     div("row") {
