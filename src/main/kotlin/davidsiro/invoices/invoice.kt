@@ -31,13 +31,13 @@ data class PaymentDetails(
         val created: Instant,
         val due: Instant,
         val vatDate: Instant,
-        val orderNo: String,
-        val constSymbol: String?,
+        val orderNo: String?,
+        val variableSymbol: String?,
         val varSymbol: String,
         val receiverAccount: BankAccount)
 
 data class BankAccount(
-        val accountNumber: String,
+        val accountNumber: String?,
         val iban: String,
         val swift: String)
 

@@ -113,21 +113,36 @@ private fun DIV.partiesSection(invoice: Invoice) {
 private fun DIV.paymentDetails(details: PaymentDetails) {
     div("row") {
         div("col") {
-            div { +"Datum vystavení: ${details.created.formatAsDay()}" }
-            div { +"Datum splatnosti: ${details.due.formatAsDay()}" }
-            div { +"DUZP: ${details.vatDate.formatAsDay()}" }
+            div {
+                +"Datum vystavení "
+                translation("(Invoice date)")
+                +": ${details.created.formatAsDay()}"
+            }
+            div {
+                +"Datum splatnosti "
+                translation("(Due date)")
+                +": ${details.due.formatAsDay()}"
+            }
+            div {
+                +"DUZP "
+                translation("(Date of taxable supply)")
+                +": ${details.vatDate.formatAsDay()}"
+            }
         }
         div("col") {
             div { +"Platba: převodem" }
-            div { +"Číslo objednávky: ${details.orderNo}" }
+            details.orderNo?.let {div { +"Číslo objednávky: ${details.orderNo}" }}
             div {
-                +"Konstantní symbol: "
-                if (details.constSymbol != null) +details.constSymbol else +"-"
+                +"Konstantní symbol "
+                translation("(Variable symbol)")
+                +": "
+                if (details.variableSymbol != null) +details.variableSymbol else +"-"
             }
-            div { +"DUZP: ${details.vatDate.formatAsDay()}" }
         }
         div("col") {
-            div { +"Bankovní účet: ${details.receiverAccount.accountNumber}" }
+            details.receiverAccount.accountNumber?.let {
+                div { +"Bankovní účet: ${details.receiverAccount.accountNumber}" }}
+
             div { +"IBAN: ${details.receiverAccount.iban}" }
             div { +"SWITFT: ${details.receiverAccount.swift}" }
 
