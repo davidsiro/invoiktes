@@ -163,15 +163,20 @@ private fun DIV.introText(invoice: Invoice) {
 
 private fun DIV.items(invoice: Invoice) {
     div("row") {
-        div("col-6") {
+        div("col-5") {
             strong { +"Označení dodávky" }
             br {}
             translation("(Service description)")
         }
         div("col") {
-            strong { +"Počet m.j." }
+            strong { +"Počet" }
             br {}
             translation("(Quantity)")
+        }
+        div("col") {
+            strong { +"m.j." }
+            br {}
+            translation("(Unit)")
         }
         div("col") {
             strong { +"Cena za m.j. v EUR" }
@@ -201,8 +206,9 @@ private fun DIV.items(invoice: Invoice) {
     }
     for (item in invoice.items) {
         div("row") {
-            div("col-6") { +item.description }
-            div("col") { +"${item.quantity} ${item.quantityUnit}" }
+            div("col-5") { +item.description }
+            div("col") { +"${item.quantity}" }
+            div("col") { +"${item.quantityUnit}" }
             div("col") { +item.pricePerUnit.toString() }
             div("col") { +"${item.vat.rate} %" }
             div("col") { +calculateItemTotal(item).toString() }
