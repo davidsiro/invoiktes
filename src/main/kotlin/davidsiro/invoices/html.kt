@@ -2,7 +2,6 @@ package davidsiro.invoices
 
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import java.io.File
 
 fun generateHTMLInvoice(out: Appendable, invoice: Invoice) {
     out.appendHTML().html {
@@ -58,7 +57,7 @@ fun generateHTMLInvoice(out: Appendable, invoice: Invoice) {
 private fun DIV.caption(invoice: Invoice) {
     h1 {
         +"Faktura - Daňový doklad "
-        small("text-muted translated") { +" (Invoice no.) "}
+        translation("(Invoice no.)")
         span("badge badge-primary") { +invoice.refNo }
     }
 }
@@ -77,7 +76,7 @@ private fun HEAD.header() {
         unsafe {
             raw("""
                 .translated {
-                    font-size: 16px;
+                    font-size: 0.7em;
                 }
             """)
         }
@@ -89,7 +88,10 @@ private fun DIV.partiesSection(invoice: Invoice) {
         div("col-6") {
             div("card") {
                 div("card-block") {
-                    h2("card-title") { +"Dodavatel" }
+                    h2("card-title") {
+                        +"Dodavatel"
+                        translation("(Supplier)")
+                    }
                     partyBlock(invoice.seller)
                 }
             }
@@ -97,7 +99,10 @@ private fun DIV.partiesSection(invoice: Invoice) {
         div("col-6") {
             div("card") {
                 div("card-block") {
-                    h2("card-title") { +"Odběratel" }
+                    h2("card-title") {
+                        +"Odběratel"
+                        translation("(Client)")
+                    }
                     partyBlock(invoice.buyer)
                 }
             }
@@ -170,14 +175,18 @@ private fun DIV.partyBlock(party: Party) {
     hr {}
     div("row") {
         div("col") {
-            +"IČ: "
+            +"IČ "
+            translation("(Registration no.)")
+            +": "
             +party.ic
         }
     }
     party.vatNo?.let {
         div("row") {
             div("col") {
-                +"DIČ: "
+                +"DIČ "
+                translation("(VAT registration no.)")
+                +": "
                 +party.vatNo
             }
         }
@@ -199,4 +208,8 @@ private fun DIV.partyBlock(party: Party) {
         }
     }
 
+}
+
+private fun FlowContent.translation(text: String) {
+    small("text-muted translated") { +" ${text} " }
 }
