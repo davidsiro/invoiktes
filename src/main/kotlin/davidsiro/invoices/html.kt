@@ -35,7 +35,7 @@ private fun DIV.totals(invoice: Invoice) {
                             +"Kurz (ČNB k ${invoice.paymentDetails.created.formatAsDay()}) "
                         }
                         translation("(Exchange rate EUR/CZK)")
-                        +"${invoice.exchangeRate}"
+                        +": ${invoice.exchangeRate}"
 
                     }
                     div("card-footer") {
