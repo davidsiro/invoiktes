@@ -57,8 +57,9 @@ fun generateHTMLInvoice(out: Appendable, invoice: Invoice) {
 
 private fun DIV.caption(invoice: Invoice) {
     h1 {
-        +"Faktura - Daňový doklad"
-        span("badge badge-primary badge-pill") { +invoice.refNo }
+        +"Faktura - Daňový doklad "
+        small("text-muted translated") { +" (Invoice no.) "}
+        span("badge badge-primary") { +invoice.refNo }
     }
 }
 
@@ -71,6 +72,15 @@ private fun HEAD.header() {
     link {
         this.rel = "stylesheet"
         this.href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    }
+    style {
+        unsafe {
+            raw("""
+                .translated {
+                    font-size: 16px;
+                }
+            """)
+        }
     }
 }
 
