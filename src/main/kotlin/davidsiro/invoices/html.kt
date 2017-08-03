@@ -134,7 +134,7 @@ private fun DIV.paymentDetails(details: PaymentDetails) {
         }
         div("col") {
             div { +"Platba: převodem" }
-            details.orderNo?.let {div { +"Číslo objednávky: ${details.orderNo}" }}
+            details.orderNo?.let { div { +"Číslo objednávky: ${details.orderNo}" } }
             div {
                 +"Variabilní symbol "
                 translation("(Variable symbol)")
@@ -144,11 +144,14 @@ private fun DIV.paymentDetails(details: PaymentDetails) {
         }
         div("col") {
             details.receiverAccount.bankName?.let {
-                div { +"Banka: ${details.receiverAccount.bankName}" }}
+                div { +"Banka: ${details.receiverAccount.bankName}" }
+            }
             details.receiverAccount.bankAddress?.let {
-                div { +"Adresa: ${details.receiverAccount.bankAddress}" }}
+                div { +"Adresa: ${details.receiverAccount.bankAddress}" }
+            }
             details.receiverAccount.accountNumber?.let {
-                div { +"Bankovní účet: ${details.receiverAccount.accountNumber}" }}
+                div { +"Bankovní účet: ${details.receiverAccount.accountNumber}" }
+            }
 
             div { +"IBAN: ${details.receiverAccount.iban}" }
             div { +"SWITFT: ${details.receiverAccount.swift}" }
@@ -218,6 +221,15 @@ private fun DIV.items(invoice: Invoice) {
             div("col") { +calculateItemTotal(item).toString() }
             div("col") { +calculateVAT(item).toString() }
             div("col") { +calculateItemTotalIncVAT(item).toString() }
+        }
+    }
+    div("row mt-5") {
+        div("col") {
+            em {
+                +"Faktura je v režimu přenesené daňové povinnosti. Daň odvede zákazník. "
+                translation("(Invoice in Reverse charge mode. The buyer is obligated to fill in the VAT amounts and pay " +
+                        "the tax.)")
+            }
         }
     }
 }
