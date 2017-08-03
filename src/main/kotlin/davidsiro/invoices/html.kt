@@ -143,6 +143,10 @@ private fun DIV.paymentDetails(details: PaymentDetails) {
             }
         }
         div("col") {
+            details.receiverAccount.bankName?.let {
+                div { +"Banka: ${details.receiverAccount.bankName}" }}
+            details.receiverAccount.bankAddress?.let {
+                div { +"Adresa: ${details.receiverAccount.bankAddress}" }}
             details.receiverAccount.accountNumber?.let {
                 div { +"Bankovní účet: ${details.receiverAccount.accountNumber}" }}
 

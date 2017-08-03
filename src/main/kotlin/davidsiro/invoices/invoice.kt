@@ -36,6 +36,8 @@ data class PaymentDetails(
         val receiverAccount: BankAccount)
 
 data class BankAccount(
+        val bankName: String?,
+        val bankAddress: String?,
         val accountNumber: String?,
         val iban: String,
         val swift: String)
