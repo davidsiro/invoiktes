@@ -84,3 +84,4 @@ fun calculateVAT(item: InvoiceItem): BigDecimal {
 
 fun calculateTotal(inv: Invoice): BigDecimal = inv.items.map { calculateItemTotalIncVAT(it) }.reduce { acc, itemTotal -> acc.plus(itemTotal) }
 
+fun convertToCZK(inv: Invoice): BigDecimal = calculateTotal(inv).multiply(inv.exchangeRate).setScale(2, RoundingMode.HALF_UP)

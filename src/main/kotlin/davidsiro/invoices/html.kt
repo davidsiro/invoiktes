@@ -47,7 +47,7 @@ private fun DIV.totals(invoice: Invoice) {
                         h4("text-right") {
                             +"Celkem v CZK"
                             translation("(Total due in CZK)")
-                            +": ${calculateTotal(invoice)}"
+                            +": ${convertToCZK(invoice)}"
                         }
                     }
 
