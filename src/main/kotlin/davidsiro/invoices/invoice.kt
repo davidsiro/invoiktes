@@ -2,6 +2,8 @@ package davidsiro.invoices;
 
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 
@@ -65,13 +67,14 @@ data class Invoice(
         val labels: List<String>)
 
 
-object formatters {
+object Formatters {
+    val priceFormat = DecimalFormat("###,###.00", DecimalFormatSymbols().apply { groupingSeparator = ' ' })
     val dayFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 }
 
-fun Instant.formatAsDay(): String {
-    return formatters.dayFormat.format(this.atZone(java.time.ZoneId.systemDefault()))
-}
+fun Instant.formatAsDay(): String = Formatters.dayFormat.format(this.atZone(java.time.ZoneId.systemDefault()))
+
+fun BigDecimal.formatAsPrice(): String = Formatters.priceFormat.format(this)
 
 fun calculateItemTotal(item: InvoiceItem): BigDecimal {
     return item.pricePerUnit.multiply(item.quantity).setScale(2, RoundingMode.HALF_UP)

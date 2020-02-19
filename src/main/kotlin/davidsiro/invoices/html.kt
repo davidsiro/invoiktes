@@ -43,12 +43,12 @@ private fun DIV.totals(invoice: Invoice) {
                         h4("text-right") {
                             +"Celkem v ${invoice.currency}"
                             translation("(Total due in ${invoice.currency})")
-                            +": ${calculateTotal(invoice)}"
+                            +": ${calculateTotal(invoice).formatAsPrice()}"
                         }
                         h4("text-right") {
                             +"Celkem v CZK"
                             translation("(Total due in CZK)")
-                            +": ${convertToCZK(invoice)}"
+                            +": ${convertToCZK(invoice).formatAsPrice()}"
                         }
                     }
 
@@ -217,11 +217,11 @@ private fun DIV.items(invoice: Invoice) {
             div("col-5") { +item.description }
             div("col") { +"${item.quantity}" }
             div("col") { +item.quantityUnit }
-            div("col") { +item.pricePerUnit.toString() }
+            div("col") { +item.pricePerUnit.formatAsPrice() }
             div("col") { +"${item.vat.rate} %" }
-            div("col") { +calculateItemTotal(item).toString() }
-            div("col") { +calculateVAT(item).toString() }
-            div("col") { +calculateItemTotalIncVAT(item).toString() }
+            div("col") { +calculateItemTotal(item).formatAsPrice() }
+            div("col") { +calculateVAT(item).formatAsPrice() }
+            div("col") { +calculateItemTotalIncVAT(item).formatAsPrice() }
         }
     }
     div("row mt-5") {
