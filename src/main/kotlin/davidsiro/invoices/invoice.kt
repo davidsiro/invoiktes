@@ -61,7 +61,8 @@ data class Invoice(
         val introText: String?,
         val exchangeRate: BigDecimal,
         val currency: Currency,
-        val items: List<InvoiceItem>)
+        val items: List<InvoiceItem>,
+        val labels: List<String>)
 
 
 object formatters {

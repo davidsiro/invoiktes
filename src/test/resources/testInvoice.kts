@@ -42,6 +42,7 @@ val invoice = Invoice("0001", davidSiro, acamar,
         listOf(
                 InvoiceItem("dle článku 4.1. a objednávky č. xyz", BigDecimal.valueOf(168.00), "hod.", BigDecimal
                         .valueOf(2500.45), VAT.STANDARD),
-                InvoiceItem("no VAT here", BigDecimal.valueOf(25), "ks", BigDecimal.valueOf(100), VAT.ZERO)))
+                InvoiceItem("no VAT here", BigDecimal.valueOf(25), "ks", BigDecimal.valueOf(100), VAT.ZERO)),
+        listOf("NET30", "TEST"))
 invoice
 

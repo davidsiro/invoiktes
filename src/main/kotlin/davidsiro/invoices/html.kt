@@ -18,6 +18,7 @@ fun generateHTMLInvoice(out: Appendable, invoice: Invoice) {
                 hr {}
                 introText(invoice)
                 items(invoice)
+                labels(invoice)
                 totals(invoice)
             }
         }
@@ -282,6 +283,22 @@ private fun DIV.partyBlock(party: Party) {
     }
 
 }
+
+private fun DIV.labels(invoice: Invoice) {
+    invoice.labels.takeUnless { it.isEmpty() }?.let { labels ->
+        div("row") {
+            div("col h4") {
+                for (label in labels) {
+                    span("badge badge-primary") {
+                        +label
+                    }
+
+                }
+            }
+        }
+    }
+}
+
 
 private fun FlowContent.translation(text: String) {
     small("text-muted translated") { +" ${text} " }

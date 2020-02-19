@@ -170,6 +170,9 @@ class InvoiceGeneratorTest {
                           <div class="row mt-5">
                             <div class="col"><em>Faktura je v režimu přenesené daňové povinnosti. Daň odvede zákazník. <small class="text-muted translated"> (Invoice in Reverse charge mode. The buyer is obligated to fill in the VAT amounts and pay the tax.) </small></em></div>
                           </div>
+                          <div class="row">
+                            <div class="col h4"><span class="badge badge-primary">NET30</span><span class="badge badge-primary">TEST</span></div>
+                          </div>
                           <div class="row mt-4">
                             <div class="col"></div>
                             <div class="col-7">
