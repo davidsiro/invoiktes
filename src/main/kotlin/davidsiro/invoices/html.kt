@@ -34,14 +34,14 @@ private fun DIV.totals(invoice: Invoice) {
                         strong {
                             +"Kurz (ČNB k ${invoice.paymentDetails.created.formatAsDay()}) "
                         }
-                        translation("(Exchange rate EUR/CZK)")
+                        translation("(Exchange rate ${invoice.currency}/CZK)")
                         +": ${invoice.exchangeRate}"
 
                     }
                     div("card-footer") {
                         h4("text-right") {
-                            +"Celkem v EUR"
-                            translation("(Total due in EUR)")
+                            +"Celkem v ${invoice.currency}"
+                            translation("(Total due in ${invoice.currency})")
                             +": ${calculateTotal(invoice)}"
                         }
                         h4("text-right") {
@@ -186,9 +186,9 @@ private fun DIV.items(invoice: Invoice) {
             translation("(Unit)")
         }
         div("col") {
-            strong { +"Cena za m.j. v EUR" }
+            strong { +"Cena za m.j. v ${invoice.currency}" }
             br {}
-            translation("(Price per unit in EUR)")
+            translation("(Price per unit in ${invoice.currency})")
         }
         div("col") {
             strong { +"DPH %" }
@@ -196,26 +196,26 @@ private fun DIV.items(invoice: Invoice) {
             translation("(VAT %)")
         }
         div("col") {
-            strong { +"Bez DPH v EUR" }
+            strong { +"Bez DPH v ${invoice.currency}" }
             br {}
-            translation("(Price w/o VAT in EUR)")
+            translation("(Price w/o VAT in ${invoice.currency})")
         }
         div("col") {
-            strong { +"DPH v EUR" }
+            strong { +"DPH v ${invoice.currency}" }
             br {}
-            translation("(VAT in EUR)")
+            translation("(VAT in ${invoice.currency})")
         }
         div("col") {
             strong { +"Celkem" }
             br {}
-            translation("(Price with VAT in EUR)")
+            translation("(Price with VAT in ${invoice.currency})")
         }
     }
     for (item in invoice.items) {
         div("row") {
             div("col-5") { +item.description }
             div("col") { +"${item.quantity}" }
-            div("col") { +"${item.quantityUnit}" }
+            div("col") { +item.quantityUnit }
             div("col") { +item.pricePerUnit.toString() }
             div("col") { +"${item.vat.rate} %" }
             div("col") { +calculateItemTotal(item).toString() }

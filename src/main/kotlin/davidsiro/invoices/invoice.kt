@@ -12,6 +12,10 @@ enum class VAT(val rate: BigDecimal) {
 
 }
 
+enum class Currency {
+    CZK, EUR, USD
+}
+
 data class Address(
         val street: String,
         val zip: String,
@@ -56,6 +60,7 @@ data class Invoice(
         val paymentDetails: PaymentDetails,
         val introText: String?,
         val exchangeRate: BigDecimal,
+        val currency: Currency,
         val items: List<InvoiceItem>)
 
 

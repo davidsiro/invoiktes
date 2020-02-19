@@ -15,8 +15,6 @@ class InvoiceGeneratorTest {
 
     @Test
     fun scriptEngineTest() {
-//        val scriptEngine = KotlinJsr223JvmLocalScriptEngineFactory().scriptEngine
-
         val scriptEngine = KotlinJsr223JvmLocalScriptEngine(
                 KotlinJsr223JvmLocalScriptEngineFactory(),
                 scriptCompilationClasspathFromContextOrStdlib(
