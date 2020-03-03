@@ -247,13 +247,16 @@ private fun DIV.partyBlock(party: Party) {
         div("col") { +"${party.address.country}" }
     }
     hr {}
-    div("row") {
-        div("col") {
-            +"IČ "
-            translation("(Registration no.)")
-            +": "
-            +party.ic
+    party.ic?.let {
+        div("row") {
+            div("col") {
+                +"IČ "
+                translation("(Registration no.)")
+                +": "
+                +party.ic
+            }
         }
+
     }
     party.vatNo?.let {
         div("row") {

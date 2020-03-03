@@ -30,7 +30,7 @@ data class Party(
         val address: Address,
         val phone: String?,
         val email: String?,
-        val ic: String,
+        val ic: String?,
         val vatNo: String?)
 
 data class PaymentDetails(
