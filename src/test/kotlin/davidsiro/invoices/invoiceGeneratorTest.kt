@@ -6,6 +6,8 @@ import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactor
 import org.jetbrains.kotlin.script.jsr223.KotlinStandardJsr223ScriptTemplate
 import org.junit.Test
 import java.io.ByteArrayOutputStream
+import java.nio.file.Files
+import java.nio.file.Path
 import javax.script.Bindings
 import javax.script.ScriptContext
 import kotlin.script.experimental.jvm.util.scriptCompilationClasspathFromContextOrStdlib
@@ -40,7 +42,10 @@ class InvoiceGeneratorTest {
         val output = ByteArrayOutputStream()
         generateInvoice(input, output)
 
-        val htmlOutput = String(output.toByteArray())
+        val bytes = output.toByteArray()
+        val htmlOutput = String(bytes)
+
+        Files.write(Path.of("./target", "invoice.html"), bytes)
 
         assertEquals(
                 """
@@ -181,7 +186,7 @@ class InvoiceGeneratorTest {
               <p class="card-text text-right"><strong>Kurz (ČNB k 01.06.2017) </strong><small class="text-muted translated"> (Exchange rate EUR/CZK) </small>: 25.6</p>
               <div class="card-footer">
                 <h4 class="text-right">Celkem v EUR<small class="text-muted translated"> (Total due in EUR) </small>: 510 791.60</h4>
-                <h4 class="text-right">Celkem v CZK<small class="text-muted translated"> (Total due in CZK) </small>: 13 076 264.96</h4>
+                <h5 class="text-right">Celkem v CZK<small class="text-muted translated"> (Total due in CZK) </small>: 13 076 264.96</h5>
               </div>
             </div>
           </div>
