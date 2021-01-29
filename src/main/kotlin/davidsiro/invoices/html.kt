@@ -224,12 +224,14 @@ private fun DIV.items(invoice: Invoice) {
             div("col") { +calculateItemTotalIncVAT(item).formatAsPrice() }
         }
     }
-    div("row mt-5") {
-        div("col") {
-            em {
-                +"Faktura je v režimu přenesené daňové povinnosti. Daň odvede zákazník. "
-                translation("(Invoice in Reverse charge mode. The buyer is obligated to fill in the VAT amounts and pay " +
-                        "the tax.)")
+    if (invoice.isZeroVatOnly()) {
+        div("row mt-5") {
+            div("col") {
+                em {
+                    +"Faktura je v režimu přenesené daňové povinnosti. Daň odvede zákazník. "
+                    translation("(Invoice in Reverse charge mode. The buyer is obligated to fill in the VAT amounts and pay " +
+                            "the tax.)")
+                }
             }
         }
     }

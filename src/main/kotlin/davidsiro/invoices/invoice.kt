@@ -64,7 +64,13 @@ data class Invoice(
         val exchangeRate: BigDecimal,
         val currency: Currency,
         val items: List<InvoiceItem>,
-        val labels: List<String>)
+        val labels: List<String>) {
+
+    fun isZeroVatOnly() = items.map { it.vat }.toSet().let { vatRates ->
+        vatRates.size == 1 && vatRates.contains(VAT.ZERO)
+    }
+
+}
 
 
 object Formatters {
