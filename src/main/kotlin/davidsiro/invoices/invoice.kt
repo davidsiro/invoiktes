@@ -100,7 +100,7 @@ fun calculateVAT(item: InvoiceItem): BigDecimal {
         .multiply(
             item.vat.rate.divide(BigDecimal.valueOf(100))
         )
-        .setScale(0, RoundingMode.HALF_UP)
+        .setScale(2, RoundingMode.HALF_UP)
 }
 
 fun calculateTotal(inv: Invoice): BigDecimal =

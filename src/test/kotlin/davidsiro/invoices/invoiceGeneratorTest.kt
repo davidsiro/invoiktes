@@ -159,8 +159,8 @@ class InvoiceGeneratorTest {
         <div class="col">2 500.45</div>
         <div class="col">21 %</div>
         <div class="col">420 075.60</div>
-        <div class="col">88 216.00</div>
-        <div class="col">508 291.60</div>
+        <div class="col">88 215.88</div>
+        <div class="col">508 291.48</div>
       </div>
       <div class="row">
         <div class="col-5">no VAT here</div>
@@ -192,20 +192,20 @@ class InvoiceGeneratorTest {
                 <div class="row">
                   <div class="col"><strong>Základní</strong><br><small class="text-muted translated"> (Base VAT) </small></div>
                   <div class="col">422 575.60 EUR<br><small class="text-muted translated">10 817 935.36 CZK</small></div>
-                  <div class="col">88 216.00 EUR<br><small class="text-muted translated">2 258 329.60 CZK</small></div>
-                  <div class="col">510 791.60 EUR<br><small class="text-muted translated">13 076 264.96 CZK</small></div>
+                  <div class="col">88 215.88 EUR<br><small class="text-muted translated">2 258 326.53 CZK</small></div>
+                  <div class="col">510 791.48 EUR<br><small class="text-muted translated">13 076 261.89 CZK</small></div>
                 </div>
                 <div class="row">
                   <div class="col"><strong>Celkem</strong><br><small class="text-muted translated"> (Total) </small></div>
                   <div class="col">422 575.60 EUR<br><small class="text-muted translated">10 817 935.36 CZK</small></div>
-                  <div class="col">88 216.00 EUR<br><small class="text-muted translated">2 258 329.60 CZK</small></div>
-                  <div class="col">510 791.60 EUR<br><small class="text-muted translated">13 076 264.96 CZK</small></div>
+                  <div class="col">88 215.88 EUR<br><small class="text-muted translated">2 258 326.53 CZK</small></div>
+                  <div class="col">510 791.48 EUR<br><small class="text-muted translated">13 076 261.89 CZK</small></div>
                 </div>
               </div>
               <hr>
               <div class="card-footer">
-                <h4 class="text-right">Celkem v EUR<small class="text-muted translated"> (Total due in EUR) </small>: 510 791.60</h4>
-                <h5 class="text-right">Celkem v CZK<small class="text-muted translated"> (Total due in CZK) </small>: 13 076 264.96</h5>
+                <h4 class="text-right">Celkem v EUR<small class="text-muted translated"> (Total due in EUR) </small>: 510 791.48</h4>
+                <h5 class="text-right">Celkem v CZK<small class="text-muted translated"> (Total due in CZK) </small>: 13 076 261.89</h5>
               </div>
             </div>
           </div>
