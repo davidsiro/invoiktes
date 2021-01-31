@@ -6,7 +6,7 @@ import kotlinx.html.stream.appendHTML
 fun generateHTMLInvoice(out: Appendable, invoice: Invoice) {
     out.appendHTML().html {
         head {
-            header()
+            header(invoice)
         }
         body {
             div("container-fluid mb-4") {
@@ -146,12 +146,12 @@ private fun DIV.caption(invoice: Invoice) {
     }
 }
 
-private fun HEAD.header() {
+private fun HEAD.header(invoice: Invoice) {
     meta {
         this.charset = "UTF-8"
     }
     meta(name = "viewport", content = "width=device-width, initial-scale=1, shrink-to-fit=no")
-    title("Faktura 20170006")
+    title(invoice.refNo)
     link {
         this.rel = "stylesheet"
         this.href = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"

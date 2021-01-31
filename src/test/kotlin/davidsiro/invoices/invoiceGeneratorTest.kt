@@ -53,7 +53,7 @@ class InvoiceGeneratorTest {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Faktura 20170006</title>
+    <title>0001</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <style>
                 .translated {
@@ -181,6 +181,28 @@ class InvoiceGeneratorTest {
           <div class="card">
             <div class="card-block">
               <p class="card-text text-right"><strong>Kurz (ČNB k 01.06.2017) </strong><small class="text-muted translated"> (Exchange rate EUR/CZK) </small>: 25.6</p>
+              <hr>
+              <div>
+                <div class="row">
+                  <div class="col"></div>
+                  <div class="col"><strong>Základ</strong><br><small class="text-muted translated"> (Base) </small></div>
+                  <div class="col"><strong>Výše DPH</strong><br><small class="text-muted translated"> (VAT) </small></div>
+                  <div class="col"><strong>Celkem</strong><br><small class="text-muted translated"> (Total) </small></div>
+                </div>
+                <div class="row">
+                  <div class="col"><strong>Základní</strong><br><small class="text-muted translated"> (Base VAT) </small></div>
+                  <div class="col">422 575.60 EUR<br><small class="text-muted translated">10 817 935.36 CZK</small></div>
+                  <div class="col">88 216.00 EUR<br><small class="text-muted translated">2 258 329.60 CZK</small></div>
+                  <div class="col">510 791.60 EUR<br><small class="text-muted translated">13 076 264.96 CZK</small></div>
+                </div>
+                <div class="row">
+                  <div class="col"><strong>Celkem</strong><br><small class="text-muted translated"> (Total) </small></div>
+                  <div class="col">422 575.60 EUR<br><small class="text-muted translated">10 817 935.36 CZK</small></div>
+                  <div class="col">88 216.00 EUR<br><small class="text-muted translated">2 258 329.60 CZK</small></div>
+                  <div class="col">510 791.60 EUR<br><small class="text-muted translated">13 076 264.96 CZK</small></div>
+                </div>
+              </div>
+              <hr>
               <div class="card-footer">
                 <h4 class="text-right">Celkem v EUR<small class="text-muted translated"> (Total due in EUR) </small>: 510 791.60</h4>
                 <h5 class="text-right">Celkem v CZK<small class="text-muted translated"> (Total due in CZK) </small>: 13 076 264.96</h5>
@@ -216,7 +238,7 @@ class InvoiceGeneratorTest {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Faktura 20170006</title>
+    <title>0001</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <style>
                 .translated {
