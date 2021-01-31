@@ -39,6 +39,9 @@ private fun DIV.totals(invoice: Invoice) {
                         +": ${invoice.exchangeRate}"
 
                     }
+                    if (!invoice.isZeroVatOnly()) {
+                        vatSummary(invoice)
+                    }
                     div("card-footer") {
                         h4("text-right") {
                             +"Celkem v ${invoice.currency}"
@@ -54,6 +57,83 @@ private fun DIV.totals(invoice: Invoice) {
 
                 }
             }
+        }
+    }
+}
+
+private fun DIV.vatSummary(invoice: Invoice) {
+    hr {}
+    div() {
+        div("row") {
+            div("col") { }
+            div("col") {
+                strong { +"Základ" }
+                br {}
+                translation("(Base)")
+            }
+            div("col") {
+                strong { +"Výše DPH" }
+                br {}
+                translation("(VAT)")
+            }
+            div("col") {
+                strong { +"Celkem" }
+                br {}
+                translation("(Total)")
+            }
+        }
+
+        div("row") {
+            div("col") {
+                strong { +"Základní" }
+                br {}
+                translation("(Base VAT)")
+            }
+            vatLine(invoice)
+        }
+        div("row") {
+            div("col") {
+                strong { +"Celkem" }
+                br {}
+                translation("(Total)")
+            }
+            vatLine(invoice)
+        }
+
+    }
+    hr {}
+}
+
+private fun DIV.vatLine(invoice: Invoice) {
+    // TODO no support for multiple VAT rates
+    val totalVATExcl = calculateTotalVATExcluded(invoice)
+    val total = calculateTotal(invoice)
+    val vatAmount = total.subtract(totalVATExcl)
+    div("col") {
+        +totalVATExcl.formatAsPrice()
+        +" ${invoice.currency}"
+        br()
+        small("text-muted translated") {
+            +convertToCZK(totalVATExcl, invoice).formatAsPrice()
+            +" CZK"
+        }
+    }
+    div("col") {
+        +vatAmount.formatAsPrice()
+        +" ${invoice.currency}"
+        br()
+        small("text-muted translated") {
+            +convertToCZK(vatAmount, invoice).formatAsPrice()
+            +" CZK"
+        }
+    }
+    div("col") {
+        +total.formatAsPrice()
+        +" ${invoice.currency}"
+        br()
+        small("text-muted translated") {
+            +convertToCZK(total, invoice).formatAsPrice()
+            +" CZK"
         }
     }
 }
@@ -78,11 +158,13 @@ private fun HEAD.header() {
     }
     style {
         unsafe {
-            raw("""
+            raw(
+                """
                 .translated {
                     font-size: 0.7em;
                 }
-            """)
+            """
+            )
         }
     }
 }
@@ -229,8 +311,10 @@ private fun DIV.items(invoice: Invoice) {
             div("col") {
                 em {
                     +"Faktura je v režimu přenesené daňové povinnosti. Daň odvede zákazník. "
-                    translation("(Invoice in Reverse charge mode. The buyer is obligated to fill in the VAT amounts and pay " +
-                            "the tax.)")
+                    translation(
+                        "(Invoice in Reverse charge mode. The buyer is obligated to fill in the VAT amounts and pay " +
+                                "the tax.)"
+                    )
                 }
             }
         }
@@ -246,7 +330,7 @@ private fun DIV.partyBlock(party: Party) {
         div("col") { +"${party.address.city} ${party.address.zip}" }
     }
     div("row") {
-        div("col") { +"${party.address.country}" }
+        div("col") { +party.address.country }
     }
     hr {}
     party.ic?.let {

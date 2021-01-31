@@ -19,52 +19,57 @@ enum class Currency {
 }
 
 data class Address(
-        val street: String,
-        val zip: String,
-        val city: String,
-        val country: String
+    val street: String,
+    val zip: String,
+    val city: String,
+    val country: String
 )
 
 data class Party(
-        val name: String,
-        val address: Address,
-        val phone: String?,
-        val email: String?,
-        val ic: String?,
-        val vatNo: String?)
+    val name: String,
+    val address: Address,
+    val phone: String?,
+    val email: String?,
+    val ic: String?,
+    val vatNo: String?
+)
 
 data class PaymentDetails(
-        val created: Instant,
-        val due: Instant,
-        val vatDate: Instant,
-        val orderNo: String?,
-        val variableSymbol: String?,
-        val receiverAccount: BankAccount)
+    val created: Instant,
+    val due: Instant,
+    val vatDate: Instant,
+    val orderNo: String?,
+    val variableSymbol: String?,
+    val receiverAccount: BankAccount
+)
 
 data class BankAccount(
-        val bankName: String?,
-        val bankAddress: String?,
-        val accountNumber: String?,
-        val iban: String,
-        val swift: String)
+    val bankName: String?,
+    val bankAddress: String?,
+    val accountNumber: String?,
+    val iban: String,
+    val swift: String
+)
 
 data class InvoiceItem(
-        val description: String,
-        val quantity: BigDecimal,
-        val quantityUnit: String,
-        val pricePerUnit: BigDecimal,
-        val vat: VAT)
+    val description: String,
+    val quantity: BigDecimal,
+    val quantityUnit: String,
+    val pricePerUnit: BigDecimal,
+    val vat: VAT
+)
 
 data class Invoice(
-        val refNo: String,
-        val seller: Party,
-        val buyer: Party,
-        val paymentDetails: PaymentDetails,
-        val introText: String?,
-        val exchangeRate: BigDecimal,
-        val currency: Currency,
-        val items: List<InvoiceItem>,
-        val labels: List<String>) {
+    val refNo: String,
+    val seller: Party,
+    val buyer: Party,
+    val paymentDetails: PaymentDetails,
+    val introText: String?,
+    val exchangeRate: BigDecimal,
+    val currency: Currency,
+    val items: List<InvoiceItem>,
+    val labels: List<String>
+) {
 
     fun isZeroVatOnly() = items.map { it.vat }.toSet().let { vatRates ->
         vatRates.size == 1 && vatRates.contains(VAT.ZERO)
@@ -92,11 +97,22 @@ fun calculateItemTotalIncVAT(item: InvoiceItem): BigDecimal {
 
 fun calculateVAT(item: InvoiceItem): BigDecimal {
     return item.pricePerUnit.multiply(item.quantity)
-            .multiply(
-                    item.vat.rate.divide(BigDecimal.valueOf(100)))
-            .setScale(0, RoundingMode.HALF_UP)
+        .multiply(
+            item.vat.rate.divide(BigDecimal.valueOf(100))
+        )
+        .setScale(0, RoundingMode.HALF_UP)
 }
 
-fun calculateTotal(inv: Invoice): BigDecimal = inv.items.map { calculateItemTotalIncVAT(it) }.reduce { acc, itemTotal -> acc.plus(itemTotal) }
+fun calculateTotal(inv: Invoice): BigDecimal =
+    inv.items.map { calculateItemTotalIncVAT(it) }.reduce { acc, itemTotal -> acc.plus(itemTotal) }
 
-fun convertToCZK(inv: Invoice): BigDecimal = calculateTotal(inv).multiply(inv.exchangeRate).setScale(2, RoundingMode.HALF_UP)
+fun calculateTotalVATExcluded(inv: Invoice): BigDecimal = inv.items.map { calculateItemTotal(it) }.reduce { acc,
+                                                                                                            itemTotal ->
+    acc.plus(itemTotal)
+}
+
+fun convertToCZK(inv: Invoice): BigDecimal =
+    calculateTotal(inv).multiply(inv.exchangeRate).setScale(2, RoundingMode.HALF_UP)
+
+fun convertToCZK(amount: BigDecimal, inv: Invoice): BigDecimal =
+    amount.multiply(inv.exchangeRate).setScale(2, RoundingMode.HALF_UP)
