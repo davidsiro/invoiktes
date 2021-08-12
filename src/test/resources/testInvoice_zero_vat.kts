@@ -37,8 +37,7 @@ val vatDate = ZonedDateTime.of(2017, 5, 31, 0, 0, 0, 0, ZoneId.systemDefault()).
 val invoice = Invoice("0001", davidSiro, acamar,
         PaymentDetails(created, dueDate, vatDate, "CS4567862313", "0001", bankAccount),
         "Na základě Smlouvy o poskytování služeb v oblasti IT a IS Vám fakturuji konzultační činnost za období Květen 2017: ",
-        BigDecimal.valueOf(25.6),
-        Currency.EUR,
+        eurExchangeRate(BigDecimal.valueOf(25.6)),
         listOf(
                 InvoiceItem("dle článku 4.1. a objednávky č. xyz", BigDecimal.valueOf(168.00), "hod.", BigDecimal
                         .valueOf(2500.45), VAT.ZERO),

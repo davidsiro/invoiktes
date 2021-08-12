@@ -5,6 +5,8 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 enum class VAT(val rate: BigDecimal) {
@@ -65,11 +67,21 @@ data class Invoice(
     val buyer: Party,
     val paymentDetails: PaymentDetails,
     val introText: String?,
-    val exchangeRate: BigDecimal,
-    val currency: Currency,
+    val exchangeRateProvider: ExchangeRateProvider,
     val items: List<InvoiceItem>,
     val labels: List<String>
 ) {
+
+    val currency: Currency
+            get() = exchangeRateProvider.currency
+
+    val exchangeRate: BigDecimal
+        get() = exchangeRateProvider.fetchRate(
+            LocalDate.ofInstant(
+                paymentDetails.created,
+                ZoneId.systemDefault()
+            )
+        )
 
     fun isZeroVatOnly() = items.map { it.vat }.toSet().let { vatRates ->
         vatRates.size == 1 && vatRates.contains(VAT.ZERO)
@@ -77,6 +89,19 @@ data class Invoice(
 
 }
 
+interface ExchangeRateProvider {
+
+    val currency: Currency
+
+    fun fetchRate(day: LocalDate): BigDecimal
+
+}
+
+class SimpleExchangeRate(override val currency: Currency, private val rate: BigDecimal) : ExchangeRateProvider {
+    override fun fetchRate(day: LocalDate): BigDecimal = rate
+}
+
+fun eurExchangeRate(rate: BigDecimal) = SimpleExchangeRate(Currency.EUR, rate)
 
 object Formatters {
     val priceFormat = DecimalFormat("###,##0.00", DecimalFormatSymbols().apply { groupingSeparator = ' ' })
