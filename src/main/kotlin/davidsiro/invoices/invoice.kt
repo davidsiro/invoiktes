@@ -69,7 +69,7 @@ data class Invoice(
     val introText: String?,
     val exchangeRateProvider: ExchangeRateProvider,
     val items: List<InvoiceItem>,
-    val labels: List<String>
+    val labels: List<String>,
 ) {
 
     val currency: Currency
@@ -100,6 +100,23 @@ interface ExchangeRateProvider {
 class SimpleExchangeRate(override val currency: Currency, private val rate: BigDecimal) : ExchangeRateProvider {
     override fun fetchRate(day: LocalDate): BigDecimal = rate
 }
+
+
+class RemoteRateProvider(val inv: Invoice, val infrastructure: Infrastructure) : ExchangeRateProvider {
+    override val currency: Currency
+        get() = inv.currency
+
+    override fun fetchRate(day: LocalDate): BigDecimal {
+        return infrastructure.cnbRatesService.fetchRateFor(inv.currency, LocalDate.ofInstant(inv.paymentDetails
+            .created,
+            ZoneId
+            .systemDefault()))
+    }
+
+}
+
+fun cnbExchangeRate(inv: Invoice, infrastructure: Infrastructure = DefaultInfrastructure) = RemoteRateProvider(inv, infrastructure)
+
 
 fun eurExchangeRate(rate: BigDecimal) = SimpleExchangeRate(Currency.EUR, rate)
 
