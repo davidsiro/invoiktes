@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <kotlin.version>1.4.21</kotlin.version>
+        <kotlin.version>1.8.21</kotlin.version>
         <main.class>davidsiro.invoices.MainKt</main.class>
     </properties>
 
@@ -21,9 +21,9 @@
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <version>${kotlin.version}</version>
-                <configuration>
-                    <jvmTarget>1.8</jvmTarget>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <jvmTarget>1.8</jvmTarget>-->
+<!--                </configuration>-->
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -91,7 +91,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-html-jvm</artifactId>
-            <version>0.6.3</version>
+            <version>0.8.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
