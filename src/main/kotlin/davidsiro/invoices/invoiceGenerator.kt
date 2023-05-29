@@ -1,38 +1,29 @@
 package davidsiro.invoices
 
-import org.jetbrains.kotlin.cli.common.repl.ScriptArgsWithTypes
-import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngine
-import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactory
-import org.jetbrains.kotlin.script.jsr223.KotlinStandardJsr223ScriptTemplate
-import java.io.*
-import javax.script.Bindings
-import javax.script.ScriptContext
-import javax.script.ScriptEngine
-import javax.script.ScriptEngineManager
-import kotlin.script.experimental.jvm.util.scriptCompilationClasspathFromContextOrStdlib
+import java.io.InputStream
+import java.io.OutputStream
+import java.io.OutputStreamWriter
+import kotlin.script.experimental.api.EvaluationResult
+import kotlin.script.experimental.api.ResultValue
+import kotlin.script.experimental.api.valueOrThrow
+import kotlin.script.experimental.host.StringScriptSource
+import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
+import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 
 fun generateInvoice(input: InputStream, output: OutputStream) {
-    val engine = getScriptEngine()
+    val compilationConfiguration = createJvmCompilationConfigurationFromTemplate<InvoiceScript>()
+    val evalResult = BasicJvmScriptingHost().eval(
+        StringScriptSource(input.bufferedReader().use { it.readText() }), compilationConfiguration, null
+    )
 
-    val inputInvoiceDef: Invoice = engine.eval(InputStreamReader(input)) as Invoice
+    val valueOrNull: EvaluationResult = evalResult.valueOrThrow()
+    val returnValue: ResultValue = valueOrNull.returnValue
+    val inputInvoiceDef: Invoice = when (returnValue) {
+        is ResultValue.Value -> returnValue.value as Invoice
+        else -> throw IllegalStateException("Failed to compile invoice script")
+    }
 
     OutputStreamWriter(output).use { out ->
         generateHTMLInvoice(out, inputInvoiceDef)
     }
-}
-
-private fun getScriptEngine(): ScriptEngine {
-    return KotlinJsr223JvmLocalScriptEngine(
-        KotlinJsr223JvmLocalScriptEngineFactory(),
-        scriptCompilationClasspathFromContextOrStdlib(
-            keyNames = arrayOf(
-                "kotlin-script-util.jar",
-                "kotlin-compiler-embeddable.jar"),
-            wholeClasspath = true),
-        KotlinStandardJsr223ScriptTemplate::class.qualifiedName!!,
-        { ctx, types ->
-            ScriptArgsWithTypes(arrayOf(ctx.getBindings(ScriptContext.ENGINE_SCOPE)), types ?: emptyArray())
-        },
-        arrayOf(Bindings::class)
-    )
 }

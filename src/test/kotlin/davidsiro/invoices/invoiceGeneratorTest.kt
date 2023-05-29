@@ -1,40 +1,12 @@
 package davidsiro.invoices
 
-import org.jetbrains.kotlin.cli.common.repl.ScriptArgsWithTypes
-import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngine
-import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactory
-import org.jetbrains.kotlin.script.jsr223.KotlinStandardJsr223ScriptTemplate
 import org.junit.Test
 import java.io.ByteArrayOutputStream
 import java.nio.file.Files
 import java.nio.file.Path
-import javax.script.Bindings
-import javax.script.ScriptContext
-import kotlin.script.experimental.jvm.util.scriptCompilationClasspathFromContextOrStdlib
 import kotlin.test.assertEquals
 
 class InvoiceGeneratorTest {
-
-    @Test
-    fun scriptEngineTest() {
-        val scriptEngine = KotlinJsr223JvmLocalScriptEngine(
-                KotlinJsr223JvmLocalScriptEngineFactory(),
-                scriptCompilationClasspathFromContextOrStdlib(
-                        keyNames = *arrayOf(
-                                "kotlin-script-util.jar",
-                                "kotlin-compiler-embeddable.jar"),
-                        wholeClasspath = true),
-                KotlinStandardJsr223ScriptTemplate::class.qualifiedName!!,
-                { ctx, types ->
-                    ScriptArgsWithTypes(arrayOf(ctx.getBindings(ScriptContext.ENGINE_SCOPE)), types ?: emptyArray())
-                },
-                arrayOf(Bindings::class)
-        )
-
-
-        scriptEngine.eval("42.toString()")
-
-    }
 
     @Test
     fun `should generate html for non zero vat`() {
