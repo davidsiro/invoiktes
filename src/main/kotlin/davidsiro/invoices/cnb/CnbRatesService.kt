@@ -1,17 +1,15 @@
 package davidsiro.invoices.cnb
 
 import davidsiro.invoices.Currency
-import java.time.LocalDate
 import khttp.get
 import java.math.BigDecimal
 
 class CnbRatesService {
 
-    fun fetchRateFor(currency: Currency, day: LocalDate): BigDecimal {
-        get(RATES_URL)
-        return BigDecimal.ONE
+    fun fetchRateFor(currency: Currency): BigDecimal {
+        val ratesAsText = get(RATES_URL).text
+        return CnbRatesParser.parse(ratesAsText, currency)
     }
-
 
     companion object {
         private const val RATES_URL =

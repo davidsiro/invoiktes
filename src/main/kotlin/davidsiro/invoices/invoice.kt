@@ -107,10 +107,7 @@ class RemoteRateProvider(val inv: Invoice, val infrastructure: Infrastructure) :
         get() = inv.currency
 
     override fun fetchRate(day: LocalDate): BigDecimal {
-        return infrastructure.cnbRatesService.fetchRateFor(inv.currency, LocalDate.ofInstant(inv.paymentDetails
-            .created,
-            ZoneId
-            .systemDefault()))
+        return infrastructure.cnbRatesService.fetchRateFor(inv.currency)
     }
 
 }
