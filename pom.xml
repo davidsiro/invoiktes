@@ -9,7 +9,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <kotlin.version>1.8.21</kotlin.version>
+        <!--
+            kotlin intentionally downgraded from 1.8.21 due to
+            https://youtrack.jetbrains.com/issue/KT-57907/Scripts-Module-kotlin.stdlib-cannot-be-found-in-the-module-graph-with-fatJar
+        -->
+        <kotlin.version>1.8.10</kotlin.version>
         <main.class>davidsiro.invoices.MainKt</main.class>
     </properties>
 
