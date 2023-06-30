@@ -141,7 +141,7 @@ class InvoiceGeneratorTest {
         <div class="col">100.00</div>
         <div class="col">0 %</div>
         <div class="col">2 500.00</div>
-        <div class="col">.00</div>
+        <div class="col">0.00</div>
         <div class="col">2 500.00</div>
       </div>
       <div class="row">
@@ -316,7 +316,7 @@ class InvoiceGeneratorTest {
         <div class="col">2 500.45</div>
         <div class="col">0 %</div>
         <div class="col">420 075.60</div>
-        <div class="col">.00</div>
+        <div class="col">0.00</div>
         <div class="col">420 075.60</div>
       </div>
       <div class="row">
@@ -326,7 +326,7 @@ class InvoiceGeneratorTest {
         <div class="col">100.00</div>
         <div class="col">0 %</div>
         <div class="col">2 500.00</div>
-        <div class="col">.00</div>
+        <div class="col">0.00</div>
         <div class="col">2 500.00</div>
       </div>
       <div class="row mt-5">
