@@ -79,7 +79,7 @@ data class Invoice(
 
 
 object Formatters {
-    val priceFormat = DecimalFormat("###,###.00", DecimalFormatSymbols().apply { groupingSeparator = ' ' })
+    val priceFormat = DecimalFormat("###,##0.00", DecimalFormatSymbols().apply { groupingSeparator = ' ' })
     val dayFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 }
 
