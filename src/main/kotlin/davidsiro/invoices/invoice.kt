@@ -5,8 +5,6 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 enum class VAT(val rate: BigDecimal) {
@@ -76,12 +74,7 @@ data class Invoice(
             get() = exchangeRateProvider.currency
 
     val exchangeRate: BigDecimal
-        get() = exchangeRateProvider.fetchRate(
-            LocalDate.ofInstant(
-                paymentDetails.created,
-                ZoneId.systemDefault()
-            )
-        )
+        get() = exchangeRateProvider.fetchRate()
 
     fun isZeroVatOnly() = items.map { it.vat }.toSet().let { vatRates ->
         vatRates.size == 1 && vatRates.contains(VAT.ZERO)
@@ -93,27 +86,26 @@ interface ExchangeRateProvider {
 
     val currency: Currency
 
-    fun fetchRate(day: LocalDate): BigDecimal
+    fun fetchRate(): BigDecimal
 
 }
 
 class SimpleExchangeRate(override val currency: Currency, private val rate: BigDecimal) : ExchangeRateProvider {
-    override fun fetchRate(day: LocalDate): BigDecimal = rate
+    override fun fetchRate(): BigDecimal = rate
 }
 
 
-class RemoteRateProvider(val inv: Invoice, val infrastructure: Infrastructure) : ExchangeRateProvider {
+class RemoteRateProvider(private val _currency: Currency, val infrastructure: Infrastructure) : ExchangeRateProvider {
     override val currency: Currency
-        get() = inv.currency
+        get() = _currency
 
-    override fun fetchRate(day: LocalDate): BigDecimal {
-        return infrastructure.cnbRatesService.fetchRateFor(inv.currency)
+    override fun fetchRate(): BigDecimal {
+        return infrastructure.cnbRatesService.fetchRateFor(_currency)
     }
 
 }
 
-fun cnbExchangeRate(inv: Invoice, infrastructure: Infrastructure = DefaultInfrastructure) = RemoteRateProvider(inv, infrastructure)
-
+fun cnbExchangeRate(currency: Currency) =  RemoteRateProvider(currency, DefaultInfrastructure)
 
 fun eurExchangeRate(rate: BigDecimal) = SimpleExchangeRate(Currency.EUR, rate)
 
