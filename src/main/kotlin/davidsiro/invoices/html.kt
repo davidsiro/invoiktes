@@ -31,13 +31,15 @@ private fun DIV.totals(invoice: Invoice) {
         div("col-7") {
             div("card") {
                 div("card-block") {
-                    p("card-text text-right") {
-                        strong {
-                            +"Kurz (ČNB k ${invoice.paymentDetails.created.formatAsDay()}) "
-                        }
-                        translation("(Exchange rate ${invoice.currency}/CZK)")
-                        +": ${invoice.exchangeRate}"
+                    if (invoice.currency != Currency.CZK) {
+                        p("card-text text-right") {
+                            strong {
+                                +"Kurz (ČNB k ${invoice.paymentDetails.created.formatAsDay()}) "
+                            }
+                            translation("(Exchange rate ${invoice.currency}/CZK)")
+                            +": ${invoice.exchangeRate}"
 
+                        }
                     }
                     if (!invoice.isZeroVatOnly()) {
                         vatSummary(invoice)
@@ -48,13 +50,14 @@ private fun DIV.totals(invoice: Invoice) {
                             translation("(Total due in ${invoice.currency})")
                             +": ${calculateTotal(invoice).formatAsPrice()}"
                         }
-                        h5("text-right") {
-                            +"Celkem v CZK"
-                            translation("(Total due in CZK)")
-                            +": ${convertToCZK(invoice).formatAsPrice()}"
+                        if (invoice.currency != Currency.CZK) {
+                            h5("text-right") {
+                                +"Celkem v CZK"
+                                translation("(Total due in CZK)")
+                                +": ${convertToCZK(invoice).formatAsPrice()}"
+                            }
                         }
                     }
-
                 }
             }
         }
