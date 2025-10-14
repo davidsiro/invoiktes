@@ -230,18 +230,36 @@ private fun DIV.paymentDetails(details: PaymentDetails) {
         }
         div("col") {
             details.receiverAccount.bankName?.let {
-                div { +"Banka: ${details.receiverAccount.bankName}" }
+                div {
+                    +"Banka "
+                    translation("(Bank)")
+                    +": $it"
+                }
             }
             details.receiverAccount.bankAddress?.let {
-                div { +"Adresa: ${details.receiverAccount.bankAddress}" }
+                div {
+                    +"Adresa "
+                    translation("(Address)")
+                    +": $it"
+                }
             }
             details.receiverAccount.accountNumber?.let {
-                div { +"Bankovní účet: ${details.receiverAccount.accountNumber}" }
+                div {
+                    +"Bankovní účet "
+                    translation("(Account number)")
+                    +": $it"
+                }
             }
 
             div { +"IBAN: ${details.receiverAccount.iban}" }
-            div { +"SWITFT: ${details.receiverAccount.swift}" }
-
+            div { +"BIC/SWIFT: ${details.receiverAccount.swift}" }
+            details.receiverAccount.accountOwnerName?.let {
+                div {
+                    +"Jméno příjemce "
+                    translation("(Account owner)")
+                    +": $it"
+                }
+            }
         }
     }
 }

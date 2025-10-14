@@ -103,11 +103,12 @@ class InvoiceGeneratorTest {
           <div>Variabilní symbol <small class="text-muted translated"> (Variable symbol) </small>: 0001</div>
         </div>
         <div class="col">
-          <div>Banka: aaa</div>
-          <div>Adresa: bbb</div>
-          <div>Bankovní účet: 82421318472/2010</div>
+          <div>Banka <small class="text-muted translated"> (Bank) </small>: aaa</div>
+          <div>Adresa <small class="text-muted translated"> (Address) </small>: bbb</div>
+          <div>Bankovní účet <small class="text-muted translated"> (Account number) </small>: 82421318472/2010</div>
           <div>IBAN: CZ89201000000002131333</div>
-          <div>SWITFT: FIOBCZPP</div>
+          <div>BIC/SWIFT: FIOBCZPP</div>
+          <div>Jméno příjemce <small class="text-muted translated"> (Account owner) </small>: John Doe</div>
         </div>
       </div>
       <hr>
@@ -288,11 +289,11 @@ class InvoiceGeneratorTest {
           <div>Variabilní symbol <small class="text-muted translated"> (Variable symbol) </small>: 0001</div>
         </div>
         <div class="col">
-          <div>Banka: aaa</div>
-          <div>Adresa: bbb</div>
-          <div>Bankovní účet: 82421318472/2010</div>
+          <div>Banka <small class="text-muted translated"> (Bank) </small>: aaa</div>
+          <div>Adresa <small class="text-muted translated"> (Address) </small>: bbb</div>
+          <div>Bankovní účet <small class="text-muted translated"> (Account number) </small>: 82421318472/2010</div>
           <div>IBAN: CZ89201000000002131333</div>
-          <div>SWITFT: FIOBCZPP</div>
+          <div>BIC/SWIFT: FIOBCZPP</div>
         </div>
       </div>
       <hr>

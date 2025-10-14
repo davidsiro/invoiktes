@@ -27,7 +27,8 @@ val acamar = Party(
         "qwewqe",
         "1873918237")
 
-val bankAccount = BankAccount("aaa", "bbb", "82421318472/2010", "CZ89201000000002131333", "FIOBCZPP")
+val bankAccount = BankAccount("aaa", "bbb", "82421318472/2010", "CZ89201000000002131333", "FIOBCZPP",
+    accountOwnerName = "John Doe")
 
 val created = ZonedDateTime.of(2017, 6, 1, 0, 0, 0, 0, ZoneId.systemDefault()).toInstant()
 val dueDate = ZonedDateTime.of(2017, 5, 22, 0, 0, 0, 0, ZoneId.systemDefault()).toInstant()

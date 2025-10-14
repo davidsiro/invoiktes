@@ -48,7 +48,8 @@ data class BankAccount(
     val bankAddress: String?,
     val accountNumber: String?,
     val iban: String,
-    val swift: String
+    val swift: String,
+    val accountOwnerName: String? = null
 )
 
 data class InvoiceItem(
